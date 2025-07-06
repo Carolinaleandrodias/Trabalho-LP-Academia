@@ -1,0 +1,25 @@
+.tabela-alunos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabela-alunos th, .tabela-alunos td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.tabela-alunos th {
+  background-color: #f0f0f0;
+}
+
+.botao-novo {
+  padding: 10px 20px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
