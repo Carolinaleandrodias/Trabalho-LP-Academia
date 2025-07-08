@@ -1,6 +1,14 @@
+.header {
+  background-color: #2980b9;
+  border-width: 1;
+  border-color: rgb(204, 143, 62);
+  width: 100%;
+}
+
 .tabela-alunos {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 15px 0;
   margin-top: 20px;
 }
 
@@ -12,14 +20,29 @@
 
 .tabela-alunos th {
   background-color: #f0f0f0;
+  justify-items: 'center';
+  align-items: 'center';
+  justify-content: 'center';
 }
 
-.botao-novo {
-  padding: 10px 20px;
+.tabela-alunos tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabela-alunos tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.tabela-alunos button {
+  margin-right: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
   background-color: #2980b9;
   color: white;
-  border: none;
-  border-radius: 5px;
-  margin-bottom: 15px;
   cursor: pointer;
+}
+
+.tabela-alunos button:hover {
+  background-color: #1c5980;
 }
