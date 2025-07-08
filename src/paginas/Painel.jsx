@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import './painel.css';
 import Alunos from './subpaginas/alunos'
+import Inicio from './subpaginas/inicio'
+import Planos from './subpaginas/planos';
+import FichasDeTreino from './subpaginas/fichasDeTreino';
 
 export default function Painel() {
-  const [menuAtivo, setMenuAtivo] = useState('alunos');
+  const [menuAtivo, setMenuAtivo] = useState('inicio');
 
   const renderConteudo = () => {
     switch(menuAtivo) {
+      case 'inicio':
+        return <Inicio/>;
       case 'alunos':
         return <Alunos/>;
       case 'planos':
-        return <div><h2>Planos</h2><p>Gerenciamento dos planos disponíveis</p></div>;
-      case 'agendamentos':
-        return <div><h2>Agendamentos</h2><p>Calendário e marcação de agendamentos</p></div>;
+        return <Planos/>;
+      case 'fichasDeTreino':
+        return <FichasDeTreino/>;
       case 'pagamentos':
         return <div><h2>Pagamentos</h2><p>Controle de pagamentos realizados</p></div>;
       case 'relatorios':
@@ -27,9 +32,10 @@ export default function Painel() {
       <nav className="sidebar">
         <h1 className="logo">Meu Painel</h1>
         <ul>
+          <li className={menuAtivo === 'inicio' ? 'ativo' : ''} onClick={() => setMenuAtivo('inicio')}>Inicio</li>
           <li className={menuAtivo === 'alunos' ? 'ativo' : ''} onClick={() => setMenuAtivo('alunos')}>Alunos</li>
           <li className={menuAtivo === 'planos' ? 'ativo' : ''} onClick={() => setMenuAtivo('planos')}>Planos</li>
-          <li className={menuAtivo === 'agendamentos' ? 'ativo' : ''} onClick={() => setMenuAtivo('agendamentos')}>Agendamentos</li>
+          <li className={menuAtivo === 'fichasDeTreino' ? 'ativo' : ''} onClick={() => setMenuAtivo('fichasDeTreino')}>Treinos</li>
           <li className={menuAtivo === 'pagamentos' ? 'ativo' : ''} onClick={() => setMenuAtivo('pagamentos')}>Pagamentos</li>
           <li className={menuAtivo === 'relatorios' ? 'ativo' : ''} onClick={() => setMenuAtivo('relatorios')}>Relatórios</li>
         </ul>

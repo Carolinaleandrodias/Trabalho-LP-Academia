@@ -15,10 +15,3 @@ body, html {
   align-items: center;
   justify-content: center;
 }
-
-.precos {
-    width: 70%;
-    margin: 250px 360px 0px 130px;
-    display: flex;
-    justify-content: space-between;
-}

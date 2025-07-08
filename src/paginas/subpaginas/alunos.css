@@ -1,36 +1,66 @@
 .header {
   background-color: #2980b9;
-  border-width: 1;
-  border-color: rgb(204, 143, 62);
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.header h2 {
+  margin: 0;               
+  font-size: 28px;        
+  font-weight: bold;
+  color:#ccc
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+}
+
+.input-pesquisa {
+  padding: 8px 12px 8px 36px; /* espaço para o ícone */
+  border-radius: 4px;
+  border: none;
+  font-size: 16px;
+}
+
+.icon-search {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none; /* o clique passa pelo ícone */
 }
 
 .tabela-alunos {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 15px 0;
-  margin-top: 20px;
+  /* border-spacing: 15px 0; */
+  /* margin-top: 20px; */
+  border-spacing: 0; /* sem espaçamento agora */
+  table-layout: fixed;
 }
 
 .tabela-alunos th, .tabela-alunos td {
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 6px;
   text-align: left;
 }
 
 .tabela-alunos th {
-  background-color: #f0f0f0;
-  justify-items: 'center';
-  align-items: 'center';
-  justify-content: 'center';
+  background-color: #170d69;
 }
 
 .tabela-alunos tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #2004f3;
 }
 
 .tabela-alunos tr:nth-child(odd) {
-  background-color: #ffffff;
+  background-color: #4180f5;
 }
 
 .tabela-alunos button {
@@ -45,4 +75,17 @@
 
 .tabela-alunos button:hover {
   background-color: #1c5980;
+}
+
+.tabela-alunos tbody {
+  display: block;
+  max-height: 100vh; 
+  overflow-y: auto;
+}
+
+.tabela-alunos thead,
+.tabela-alunos tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }

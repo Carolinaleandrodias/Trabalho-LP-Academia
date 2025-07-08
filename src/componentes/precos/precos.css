@@ -1,0 +1,62 @@
+.plano-card {
+  background-color: #0073d6; /* azul do card */
+  width: 260px;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.plano-titulo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.plano-preco {
+  display: flex;
+  justify-content: center;
+  border: 2px solid #fff;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.plano-moeda {
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+.plano-valor {
+  font-size: 40px;
+}
+
+.plano-centavos {
+  font-size: 16px;
+  margin-left: 3px;
+}
+
+.plano-descricao-container {
+  background-color: white;
+  border-radius: 6px;
+  padding: 10px;
+  color: black;
+}
+
+.plano-descricao-header {
+  background-color: black;
+  color: white;
+  padding: 5px 0;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.plano-lista {
+  list-style-type: disc;
+  padding-left: 20px;
+  text-align: left;
+  font-size: 14px;
+  margin: 0;
+}

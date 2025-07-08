@@ -56,9 +56,10 @@ html, body, #root {
 
 .conteudo-principal {
   flex-grow: 1;
-  padding: 40px;
+  /* padding: 40px; */
   background-color: white;
-  overflow-y: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .conteudo-principal h2 {

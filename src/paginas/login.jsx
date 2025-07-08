@@ -1,7 +1,6 @@
-import './Login.css'
+import './login.css'
 import logo from '../assets/logo.png';
-import React, { useState } from 'react';
-import '../paginas/Painel.css';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const adm = {
