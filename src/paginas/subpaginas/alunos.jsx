@@ -1,5 +1,7 @@
 import './alunos.css'
 import { useState, useEffect } from 'react';
+import { FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
+import fundo from '../../assets/4.jpg';
 
 export default function Alunos() {
     const [alunos, setAlunos] = useState([
@@ -25,66 +27,59 @@ export default function Alunos() {
         { nome: "Fernanda Nunes", cpf: "888.999.000-11", email: "fernanda@email.com", plano: "Trimestral", status: "Inativo" }
     ]);
 
-    const [ordem, setOrdem] = useState({ coluna: 'nome', direcao: 'asc' });
+  const [ordem, setOrdem] = useState({ coluna: 'nome', direcao: 'asc' });
+  const [filtro, setFiltro] = useState('');
 
-    useEffect(() => {
-        ordenarLista('nome', 'asc');
-    }, []);
+  useEffect(() => {
+    ordenarLista('nome', 'asc');
+  }, []);
 
-    const ordenarLista = (coluna, direcao) => {
-        const listaOrdenada = [...alunos].sort((a, b) => {
-            if (a[coluna] < b[coluna]) return direcao === 'asc' ? -1 : 1;
-            if (a[coluna] > b[coluna]) return direcao === 'asc' ? 1 : -1;
-            return 0;
-        });
-        setAlunos(listaOrdenada);
-    };
+  const ordenarLista = (coluna, direcao) => {
+    const listaOrdenada = [...alunos].sort((a, b) => {
+      if (a[coluna] < b[coluna]) return direcao === 'asc' ? -1 : 1;
+      if (a[coluna] > b[coluna]) return direcao === 'asc' ? 1 : -1;
+      return 0;
+    });
+    setAlunos(listaOrdenada);
+  };
 
-    const ordenarPor = (coluna) => {
-        const novaDirecao = ordem.coluna === coluna && ordem.direcao === 'asc' ? 'desc' : 'asc';
-        const alunosOrdenados = [...alunos].sort((a, b) => {
-        if (a[coluna] < b[coluna]) return novaDirecao === 'asc' ? -1 : 1;
-        if (a[coluna] > b[coluna]) return novaDirecao === 'asc' ? 1 : -1;
-        return 0;
-        });
-        setOrdem({ coluna, direcao: novaDirecao });
-        setAlunos(alunosOrdenados);
-    };
+  const ordenarPor = (coluna) => {
+    const novaDirecao = ordem.coluna === coluna && ordem.direcao === 'asc' ? 'desc' : 'asc';
+    ordenarLista(coluna, novaDirecao);
+    setOrdem({ coluna, direcao: novaDirecao });
+  };
 
-    const seta = (coluna) => {
-        if (ordem.coluna === coluna) {
-        return ordem.direcao === 'asc' ? '▲' : '▼';
-        }
-        return '⬍';
-    };
+  const seta = (coluna) => {
+    if (ordem.coluna === coluna) return ordem.direcao === 'asc' ? '▲' : '▼';
+    return '⬍';
+  };
 
-    const [filtro, setFiltro] = useState('');
+  const alunosFiltrados = alunos.filter((aluno) =>
+    aluno.nome.toLowerCase().includes(filtro.toLowerCase())
+  );
 
-    const alunosFiltrados = alunos.filter((aluno) =>
-      aluno.nome.toLowerCase().includes(filtro.toLowerCase())
-    );
-
-    return (
-      <div>
-        <div className="header">
-          <h2>Alunos MoveOn</h2>
-          <div className="input-container">
-            <input
-              type="text"
-              placeholder="Pesquisar aluno..."
-              className="input-pesquisa"
-              onChange={(e) => setFiltro(e.target.value)}
-            />
-            <i className="fas fa-search icon-search"></i>
-          </div>
+  return (
+    <div className="alunos-container" style={{ backgroundImage: `url(${fundo})` }}>
+      <div className="header">
+        <h2>Alunos</h2>
+        <div className="input-container">
+          <FaSearch className="icon-search" />
+          <input
+            type="text"
+            placeholder="Pesquisar aluno..."
+            className="input-pesquisa"
+            onChange={(e) => setFiltro(e.target.value)}
+          />
         </div>
+      </div>
 
+      <div className="tabela-wrapper">
         <table className="tabela-alunos">
           <thead>
             <tr>
               <th onClick={() => ordenarPor('nome')}>Nome {seta('nome')}</th>
               <th>CPF</th>
-              <th>E-mail</th>
+              <th>Email</th>
               <th onClick={() => ordenarPor('plano')}>Plano {seta('plano')}</th>
               <th onClick={() => ordenarPor('status')}>Status {seta('status')}</th>
               <th>Ações</th>
@@ -98,14 +93,15 @@ export default function Alunos() {
                 <td>{aluno.email}</td>
                 <td>{aluno.plano}</td>
                 <td>{aluno.status}</td>
-                <td>
-                  <button>Editar</button>
-                  <button>Excluir</button>
+                <td className="acoes">
+                  <button className="editar"><FaEdit /></button>
+                  <button className="excluir"><FaTrash /></button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+    </div>
   );
 }

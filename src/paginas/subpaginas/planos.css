@@ -5,8 +5,8 @@ body, html {
   overflow: hidden;
 }
 
-.container2 {
-  width: 100vw;
+.teste2 {
+  width: calc(100vw - 250px);
   height: 100vh;
   background-size: cover;
   background-position: center;

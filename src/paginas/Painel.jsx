@@ -4,6 +4,7 @@ import Alunos from './subpaginas/alunos'
 import Inicio from './subpaginas/inicio'
 import Planos from './subpaginas/planos';
 import FichasDeTreino from './subpaginas/fichasDeTreino';
+import Adm from './subpaginas/adm';
 
 export default function Painel() {
   const [menuAtivo, setMenuAtivo] = useState('inicio');
@@ -18,10 +19,8 @@ export default function Painel() {
         return <Planos/>;
       case 'fichasDeTreino':
         return <FichasDeTreino/>;
-      case 'pagamentos':
-        return <div><h2>Pagamentos</h2><p>Controle de pagamentos realizados</p></div>;
-      case 'relatorios':
-        return <div><h2>Relatórios</h2><p>Análise e relatórios detalhados</p></div>;
+      case 'adm':
+        return <Adm/>;
       default:
         return null;
     }
@@ -36,8 +35,7 @@ export default function Painel() {
           <li className={menuAtivo === 'alunos' ? 'ativo' : ''} onClick={() => setMenuAtivo('alunos')}>Alunos</li>
           <li className={menuAtivo === 'planos' ? 'ativo' : ''} onClick={() => setMenuAtivo('planos')}>Planos</li>
           <li className={menuAtivo === 'fichasDeTreino' ? 'ativo' : ''} onClick={() => setMenuAtivo('fichasDeTreino')}>Treinos</li>
-          <li className={menuAtivo === 'pagamentos' ? 'ativo' : ''} onClick={() => setMenuAtivo('pagamentos')}>Pagamentos</li>
-          <li className={menuAtivo === 'relatorios' ? 'ativo' : ''} onClick={() => setMenuAtivo('relatorios')}>Relatórios</li>
+          <li className={menuAtivo === 'adm' ? 'ativo' : ''} onClick={() => setMenuAtivo('adm')}>Administrativo</li>
         </ul>
       </nav>
 

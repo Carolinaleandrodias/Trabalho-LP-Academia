@@ -1,17 +1,92 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
-.container2 {
-  width: 100vw;
+.ficha-container {
+  width: calc(100vw - 250px);
   height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: flex-start;
+  padding-top: 180px;
+  overflow-y: auto;
+}
+
+.ficha-conteudo {
+  width: 70%;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+.ficha-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  background-color: #d1d1d1;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.treino-box {
+  display: flex;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.treino-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  background-color: #0056a7;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  width: 50px;
+}
+
+.treino-detalhes {
+  background-color: #f5f5f5;
+  flex: 1;
+  padding: 15px;
+}
+
+.treino-detalhes h3 {
+  margin-top: 0;
+  color: #003366;
+}
+
+.treino-lista {
+  display: flex;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.treino-lista ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #000000;
+}
+
+.treino-lista li {
+  margin-bottom: 8px;
+}
+
+
+.cpf-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cpf-search input {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  flex: 1;
 }
