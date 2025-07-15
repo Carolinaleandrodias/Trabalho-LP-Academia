@@ -29,7 +29,7 @@ func CreateAluno(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := database.CriarAluno(aluno.CPF, aluno.Nome, aluno.Email, aluno.Idade, aluno.Ativo)
+	err := database.CriarAluno(aluno.CPF, aluno.Nome, aluno.Email, aluno.Idade, aluno.Plano, aluno.Ativo)
 	if err != nil {
 		http.Error(w, "Erro ao criar aluno", http.StatusInternalServerError)
 		return

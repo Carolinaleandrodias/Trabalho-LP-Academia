@@ -21,7 +21,12 @@ func InitDB() {
 	if err != nil {
 		log.Fatalf("Erro ao conectar no banco: %v", err)
 	}
-	// Exemplo de criação de tabela
+
+	// _, err = DB.Exec("DROP TABLE IF EXISTS alunos")
+	// if err != nil {
+	// 	log.Fatalf("Erro ao excluir tabela: %v", err)
+	// }
+
 	createTable := `
     CREATE TABLE IF NOT EXISTS alunos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,6 +34,7 @@ func InitDB() {
         nome TEXT NOT NULL,
         email TEXT NOT NULL,
         idade INTEGER NOT NULL,
+        Plano TEXT NOT NULL,
         ativo BOOLEAN NOT NULL
     );`
 	_, err = DB.Exec(createTable)
@@ -36,9 +42,8 @@ func InitDB() {
 		log.Fatal(err)
 	}
 }
-
 func GetAlunos() ([]models.Aluno, error) {
-	rows, err := DB.Query("SELECT id, cpf, nome, email, idade, ativo FROM alunos")
+	rows, err := DB.Query("SELECT id, cpf, nome, email, idade, plano, ativo FROM alunos")
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +52,7 @@ func GetAlunos() ([]models.Aluno, error) {
 	var alunos []models.Aluno
 	for rows.Next() {
 		var a models.Aluno
-		err := rows.Scan(&a.ID, &a.CPF, &a.Nome, &a.Email, &a.Idade, &a.Ativo)
+		err := rows.Scan(&a.ID, &a.CPF, &a.Nome, &a.Email, &a.Idade, &a.Plano, &a.Ativo)
 		if err != nil {
 			return nil, err
 		}
@@ -56,10 +61,10 @@ func GetAlunos() ([]models.Aluno, error) {
 	return alunos, nil
 }
 
-func CriarAluno(cpf, nome, email string, idade int, ativo bool) error {
+func CriarAluno(cpf, nome, email string, idade int, plano string, ativo bool) error {
 	_, err := DB.Exec(
-		"INSERT INTO alunos (cpf, nome, email, idade, ativo) VALUES (?, ?, ?, ?, ?)",
-		cpf, nome, email, idade, ativo,
+		"INSERT INTO alunos (cpf, nome, email, idade, plano, ativo) VALUES (?, ?, ?, ?, ?, ?)",
+		cpf, nome, email, idade, plano, ativo,
 	)
 	return err
 }
