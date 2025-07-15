@@ -1,0 +1,105 @@
+:root {
+  --cor-fundo: #f9f9f9;
+  --cor-cartao: #ffffff;
+  --cor-titulo: #222;
+  --cor-texto: #333;
+  --cor-tabela-header: #f4f4f4;
+  --cor-linha-par: #f8f8f8;
+  --cor-hover: #e6f7ff;
+  --cor-borda: #e0e0e0;
+  --sombra-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --radius: 8px;
+  --padding-container: 20px;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-size-base: 0.95rem;
+  --font-size-title: 1.4rem;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--cor-fundo);
+  font-family: var(--font-family);
+  color: var(--cor-texto);
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: calc(100vw - 250px);
+  padding: 20px;
+}
+
+.card {
+  background-color: var(--cor-cartao);
+  border-radius: var(--radius);
+  box-shadow: var(--sombra-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  padding: 16px 24px;
+  background-color: var(--cor-tabela-header);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: var(--font-size-title);
+  color: var(--cor-titulo);
+}
+
+.card-body {
+  padding: 20px 24px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabela-funcionarios {
+  width: 100%;
+  min-width: 1500px;
+  border-collapse: collapse;
+  background-color: var(--cor-cartao);
+  box-shadow: none;
+  border: 1px solid var(--cor-borda);
+  border-radius: 0;
+}
+
+.tabela-funcionarios th,
+.tabela-funcionarios td {
+  padding: 12px 16px;
+  border: 1px solid var(--cor-borda);
+  text-align: left;
+  font-size: var(--font-size-base);
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+  cursor: default;
+}
+
+.tabela-funcionarios th {
+  background-color: #f0f0f0;
+  font-weight: 600;
+  color: var(--cor-titulo);
+  user-select: none;
+}
+
+.tabela-funcionarios tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.tabela-funcionarios tbody tr:hover {
+  background-color: #f5faff;
+}
+
+.tabela-funcionarios tbody td:hover {
+  background-color: #e3f2fd;
+  cursor: pointer;
+}
