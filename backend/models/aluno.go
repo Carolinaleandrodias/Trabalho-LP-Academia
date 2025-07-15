@@ -6,5 +6,6 @@ type Aluno struct {
 	Nome  string `json:"nome"`
 	Email string `json:"email"`
 	Idade int    `json:"idade"`
+	Plano string `json:"plano"`
 	Ativo bool   `json:"ativo"`
 }
