@@ -92,6 +92,14 @@ func DeletarAluno(id int) error {
 	return err
 }
 
+func AtualizarAluno(a models.Aluno) error {
+	_, err := DB.Exec(
+		"UPDATE alunos SET cpf=?, nome=?, email=?, idade=?, plano=?, ativo=? WHERE id=?",
+		a.CPF, a.Nome, a.Email, a.Idade, a.Plano, a.Ativo, a.ID,
+	)
+	return err
+}
+
 func GetFuncionarios() ([]models.Funcionario, error) {
 	rows, err := DB.Query("SELECT id, codigo, cpf, nome, turno FROM funcionarios")
 	if err != nil {
@@ -136,14 +144,6 @@ func AtualizarFuncionario(f models.Funcionario) error {
 	_, err := DB.Exec(
 		"UPDATE funcionarios SET codigo=?, cpf=?, nome=?, turno=? WHERE id=?",
 		f.Codigo, f.CPF, f.Nome, f.Turno, f.ID,
-	)
-	return err
-}
-
-func AtualizarAluno(a models.Aluno) error {
-	_, err := DB.Exec(
-		"UPDATE alunos SET cpf=?, nome=?, email=?, idade=?, plano=?, ativo=? WHERE id=?",
-		a.CPF, a.Nome, a.Email, a.Idade, a.Plano, a.Ativo, a.ID,
 	)
 	return err
 }
