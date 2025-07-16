@@ -9,20 +9,34 @@ import (
 	"backend/handlers"
 )
 
+func enableCORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	database.InitDB()
 
-	http.HandleFunc("/api/alunos", handlers.ListAlunos)
-	http.HandleFunc("/api/alunos/create", handlers.CreateAluno)
-	http.HandleFunc("/api/alunos/get", handlers.GetAlunoByID)
-	http.HandleFunc("/api/alunos/delete", handlers.DeleteAluno)
-	http.HandleFunc("/api/alunos/update", handlers.UpdateAluno)
-	http.HandleFunc("/api/funcionarios", handlers.ListFuncionarios)
-	http.HandleFunc("/api/funcionarios/get", handlers.GetFuncionarioByID)
-	http.HandleFunc("/api/funcionarios/create", handlers.CreateFuncionario)
-	http.HandleFunc("/api/funcionarios/delete", handlers.DeleteFuncionario)
-	http.HandleFunc("/api/funcionarios/update", handlers.UpdateFuncionario)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/api/alunos", handlers.ListAlunos)
+	mux.HandleFunc("/api/alunos/create", handlers.CreateAluno)
+	mux.HandleFunc("/api/alunos/get", handlers.GetAlunoByID)
+	mux.HandleFunc("/api/alunos/delete", handlers.DeleteAluno)
+	mux.HandleFunc("/api/alunos/update", handlers.UpdateAluno)
+	mux.HandleFunc("/api/funcionarios", handlers.ListFuncionarios)
+	mux.HandleFunc("/api/funcionarios/get", handlers.GetFuncionarioByID)
+	mux.HandleFunc("/api/funcionarios/create", handlers.CreateFuncionario)
+	mux.HandleFunc("/api/funcionarios/delete", handlers.DeleteFuncionario)
+	mux.HandleFunc("/api/funcionarios/update", handlers.UpdateFuncionario)
 
 	fmt.Println("Backend Go rodando na porta 8080...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", enableCORS(mux)))
 }
