@@ -48,10 +48,7 @@ export default function Login() {
         return res.json(); 
     })
     .then((retornoCPF) => {
-        console.log(retornoCPF.Usuario);
-        console.log(retornoCPF.replaceAll('"',''));
-        console.log(cpf)
-        if (retornoCPF.replaceAll('"','') == cpf) { 
+        if (retornoCPF == cpf) { 
             alert("Login realizado com sucesso!");
             console.log("Usuário logado:", retornoCPF);
             navigate('/painel');
