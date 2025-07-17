@@ -67,19 +67,19 @@ func DeleteFuncionario(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	idStr := r.URL.Query().Get("id")
-	if idStr == "" {
-		http.Error(w, "ID não informado", http.StatusBadRequest)
+	codStr := r.URL.Query().Get("codigo")
+	if codStr == "" {
+		http.Error(w, "Codigo não informado", http.StatusBadRequest)
 		return
 	}
 
-	id, err := strconv.Atoi(idStr)
+	codigo, err := strconv.Atoi(codStr)
 	if err != nil {
-		http.Error(w, "ID inválido", http.StatusBadRequest)
+		http.Error(w, "Codigo inválido", http.StatusBadRequest)
 		return
 	}
 
-	err = database.DeletarFuncionario(id)
+	err = database.DeletarFuncionario(codigo)
 	if err != nil {
 		http.Error(w, "Erro ao deletar funcionário", http.StatusInternalServerError)
 		return

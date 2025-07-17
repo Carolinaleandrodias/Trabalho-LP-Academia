@@ -26,6 +26,9 @@ func main() {
 	database.InitDB()
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("/api/login", handlers.Login)
+	mux.HandleFunc("/api/usuarios/create", handlers.CreateUsuario)
+	mux.HandleFunc("/api/usuarios/delete", handlers.DeleteUsuario)
 	mux.HandleFunc("/api/alunos", handlers.ListAlunos)
 	mux.HandleFunc("/api/alunos/create", handlers.CreateAluno)
 	mux.HandleFunc("/api/alunos/get", handlers.GetAlunoByID)

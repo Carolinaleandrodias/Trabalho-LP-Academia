@@ -22,4 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-backend
+backend/backend
+backend/go1.24.3.linux-amd64.tar.gz

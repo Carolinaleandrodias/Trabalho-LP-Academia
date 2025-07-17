@@ -2,11 +2,13 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	"backend/models"
 
 	_ "github.com/mattn/go-sqlite3"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var DB *sql.DB
@@ -22,12 +24,18 @@ func InitDB() {
 		log.Fatalf("Erro ao conectar no banco: %v", err)
 	}
 
-	// _, err = DB.Exec("DROP TABLE IF EXISTS alunos")
+	// _, err = DB.Exec("DROP TABLE IF EXISTS usuarios")
 	// if err != nil {
 	// 	log.Fatalf("Erro ao excluir tabela: %v", err)
 	// }
 
 	createTable := `
+	CREATE TABLE IF NOT EXISTS usuarios (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		usuario TEXT NOT NULL UNIQUE,
+		senha TEXT NOT NULL
+	);
+
     CREATE TABLE IF NOT EXISTS alunos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         cpf TEXT NOT NULL UNIQUE,
@@ -51,6 +59,39 @@ func InitDB() {
 		log.Fatal(err)
 	}
 
+}
+
+func CriarUsuario(usuario, senha string) error {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(senha), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	_, err = DB.Exec(
+		"INSERT INTO usuarios (usuario, senha) VALUES (?, ?)",
+		usuario, string(hashedPassword),
+	)
+	return err
+}
+
+func AutenticarUsuario(usuario, senha string) (models.Usuario, error) {
+	var u models.Usuario
+	err := DB.QueryRow(
+		"SELECT id, usuario, senha FROM usuarios WHERE usuario = ?",
+		usuario,
+	).Scan(&u.ID, &u.Usuario, &u.Senha)
+	if err != nil {
+		return u, err
+	}
+	// Verifica o hash da senha
+	if bcrypt.CompareHashAndPassword([]byte(u.Senha), []byte(senha)) != nil {
+		return u, fmt.Errorf("senha inválida")
+	}
+	return u, nil
+}
+
+func DeletarUsuario(id int) error {
+	_, err := DB.Exec("DELETE FROM usuarios WHERE id = ?", id)
+	return err
 }
 
 func GetAlunos() ([]models.Aluno, error) {
@@ -135,8 +176,8 @@ func CriarFuncionario(codigo int, cpf, nome, turno string) error {
 	return err
 }
 
-func DeletarFuncionario(id int) error {
-	_, err := DB.Exec("DELETE FROM funcionarios WHERE id = ?", id)
+func DeletarFuncionario(codigo int) error {
+	_, err := DB.Exec("DELETE FROM funcionarios WHERE codigo = ?", codigo)
 	return err
 }
 
