@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
+import fundo from '../../assets/fundo.jpeg';
 import { Line, Bar } from "react-chartjs-2";
+import { MdEdit, MdDelete } from 'react-icons/md';
+import ModalCadastroFuncionario from "../../componentes/modals/CadastroFuncionario";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -29,6 +33,9 @@ export default function TabelaFuncionarios() {
   const [funcionarios, setFuncionarios] = useState([]);
   const [erro, setErro] = useState(null);
 
+  const URL = "http://34.151.229.132:8080/api/"
+
+  const [modalAberto, setModalAberto] = useState(false);
   const [formData, setFormData] = useState({
     codigo: "",
     nome: "",
@@ -41,7 +48,7 @@ export default function TabelaFuncionarios() {
   }, []);
 
   const buscarFuncionarios = () => {
-    fetch("http://localhost:8080/api/funcionarios")
+    fetch(URL+"funcionarios")
       .then((res) => {
         if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
         return res.json();
@@ -79,7 +86,7 @@ export default function TabelaFuncionarios() {
     if (!cpfValido) return alert("CPF deve conter exatamente 11 números.");
     if (!turnoValido) return alert("Selecione um turno.");
 
-    fetch("http://localhost:8080/api/funcionarios/create", {
+    fetch(URL+"funcionarios/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -106,7 +113,7 @@ export default function TabelaFuncionarios() {
   const handleDelete = (codigo) => {
     if (!window.confirm("Deseja realmente excluir este funcionário?")) return;
 
-    fetch(`http://localhost:8080/api/funcionarios/delete?id=${codigo}`, {
+    fetch(`${URL}funcionarios/delete?id=${codigo}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -188,74 +195,33 @@ export default function TabelaFuncionarios() {
   };
 
   return (
-    <div className="container">
+     <div
+      className="container2"
+      style={{
+        backgroundImage: `url(${fundo})`,
+      }}
+    > 
+      <div>
+        <button onClick={() => setModalAberto(true)} className="botao-cadastrar">
+          Cadastrar Funcionário
+        </button>
+
+        <ModalCadastroFuncionario
+          aberto={modalAberto}
+          fechar={() => setModalAberto(false)}
+          formData={formData}
+          setFormData={setFormData}
+          handleSubmit={handleSubmit}
+        />
+      </div>
+
+      
       {/* Gráficos */}
       <div className="card" style={{ padding: 24 }}>
         <h3 style={{ marginBottom: 16, color: "#222" }}>
           Faturamento Semanal (R$)
         </h3>
         <Line data={dataFaturamentoMensal} options={optionsFaturamentoMensal} />
-      </div>
-
-      <div className="card" style={{ marginTop: 32, padding: 24 }}>
-        <h3 style={{ marginBottom: 16, color: "#222" }}>
-          Frequência de Alunos Semanal
-        </h3>
-        <Bar data={dataFrequentaSemana} options={optionsFrequentaSemana} />
-      </div>
-
-      {/* Formulário */}
-      <div className="card" style={{ marginTop: 32, padding: 24 }}>
-        <h3 style={{ marginBottom: 16 }}>Cadastrar Funcionário</h3>
-        <form onSubmit={handleSubmit} style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-          <input
-            type="text"
-            name="codigo"
-            placeholder="Código"
-            value={formData.codigo}
-            onChange={handleChange}
-            inputMode="numeric"
-            pattern="\d+"
-            title="Apenas números"
-            required
-          />
-          <input
-            type="text"
-            name="nome"
-            placeholder="Nome"
-            value={formData.nome}
-            onChange={handleChange}
-            pattern="[A-Za-zÀ-ÿ\s]+"
-            title="Apenas letras"
-            required
-          />
-          <input
-            type="text"
-            name="cpf"
-            placeholder="CPF (somente números)"
-            value={formData.cpf}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, "");
-              setFormData({ ...formData, cpf: value });
-            }}
-            maxLength="11"
-            pattern="\d{11}"
-            title="Digite exatamente 11 números"
-            required
-          />
-          <select
-            name="turno"
-            value={formData.turno}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Selecione o turno</option>
-            <option value="Manhã">Manhã</option>
-            <option value="Tarde">Tarde</option>
-            <option value="Noite">Noite</option>
-          </select>
-          <button type="submit">Cadastrar</button>
-        </form>
       </div>
 
       {/* Tabela */}
@@ -273,7 +239,7 @@ export default function TabelaFuncionarios() {
                   <th>NOME</th>
                   <th>CPF</th>
                   <th>TURNO</th>
-                  <th>AÇÕES</th>
+                  <th style={{ width: 'clamp(60px, 8vw, 100px)' }}>AÇÕES</th>
                 </tr>
               </thead>
               <tbody>
@@ -289,8 +255,16 @@ export default function TabelaFuncionarios() {
                       <td>{f.cpf}</td>
                       <td>{f.turno}</td>
                       <td>
-                        <button onClick={() => alert("Função de edição ainda não implementada")}>✏️</button>
-                        <button onClick={() => handleDelete(f.codigo)}>🗑️</button>
+                        <button 
+                          className="buttonIcon"
+                          onClick={() => alert("Função de edição ainda não implementada")}>
+                          <MdEdit size={18} color="#2980b9" />
+                        </button>
+                        <button 
+                          className="buttonIcon"
+                          onClick={() => handleDelete(f.codigo)}>
+                          <MdDelete size={18} color="#c0392b" />
+                        </button>
                       </td>
                     </tr>
                   ))
