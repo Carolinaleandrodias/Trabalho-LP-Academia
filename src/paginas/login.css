@@ -97,6 +97,11 @@ body {
   text-align: center;
 }
 
+input{
+  background-color: #ecf0f1;
+  color: black;
+}
+
 .botao-entrar:hover {
   background-color: #ecf0f1;
 }
