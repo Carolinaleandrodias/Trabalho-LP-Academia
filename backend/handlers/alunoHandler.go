@@ -67,19 +67,19 @@ func DeleteAluno(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	idStr := r.URL.Query().Get("id")
-	if idStr == "" {
-		http.Error(w, "ID não informado", http.StatusBadRequest)
+	cpfStr := r.URL.Query().Get("cpf")
+	if cpfStr == "" {
+		http.Error(w, "CPF não informado", http.StatusBadRequest)
 		return
 	}
 
-	id, err := strconv.Atoi(idStr)
+	cpf, err := strconv.Atoi(cpfStr)
 	if err != nil {
-		http.Error(w, "ID inválido", http.StatusBadRequest)
+		http.Error(w, "CPF inválido", http.StatusBadRequest)
 		return
 	}
 
-	err = database.DeletarAluno(id)
+	err = database.DeletarAluno(cpf)
 	if err != nil {
 		http.Error(w, "Erro ao deletar aluno", http.StatusInternalServerError)
 		return

@@ -176,8 +176,8 @@ func CriarAluno(cpf, nome, email string, idade int, plano string, ativo bool) er
 	return err
 }
 
-func DeletarAluno(id int) error {
-	_, err := DB.Exec("DELETE FROM alunos WHERE id = ?", id)
+func DeletarAluno(cpf int) error {
+	_, err := DB.Exec("DELETE FROM alunos WHERE cpf = ?", cpf)
 	return err
 }
 
