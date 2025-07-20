@@ -70,7 +70,6 @@ export default function IdadeHistograma() {
   ]
 
   const contFaixas = faixaEtaria(alunos, intervalos);
-  console.log(contFaixas)
 
   const data = [
   { faixa: '0 a 15', alunos: contFaixas["0 a "] },

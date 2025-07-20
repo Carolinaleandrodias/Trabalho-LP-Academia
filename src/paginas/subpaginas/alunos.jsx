@@ -4,33 +4,39 @@ import { FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
 import fundo from '../../assets/4.jpg';
 
 export default function Alunos() {
-    const [alunos, setAlunos] = useState([
-        { nome: "João Silva", cpf: "123.456.789-00", email: "joao@email.com", plano: "Mensal", status: "Ativo" },
-        { nome: "Maria Souza", cpf: "987.654.321-00", email: "maria@email.com", plano: "Trimestral", status: "Ativo" },
-        { nome: "Carlos Lima", cpf: "111.222.333-44", email: "carlos@email.com", plano: "Anual", status: "Inativo" },
-        { nome: "Ana Paula", cpf: "222.333.444-55", email: "ana@email.com", plano: "Mensal", status: "Ativo" },
-        { nome: "Pedro Henrique", cpf: "333.444.555-66", email: "pedro@email.com", plano: "Trimestral", status: "Inativo" },
-        { nome: "Luciana Alves", cpf: "444.555.666-77", email: "luciana@email.com", plano: "Anual", status: "Ativo" },
-        { nome: "Marcos Dias", cpf: "555.666.777-88", email: "marcos@email.com", plano: "Mensal", status: "Ativo" },
-        { nome: "Juliana Costa", cpf: "666.777.888-99", email: "juliana@email.com", plano: "Trimestral", status: "Inativo" },
-        { nome: "Felipe Rocha", cpf: "777.888.999-00", email: "felipe@email.com", plano: "Anual", status: "Ativo" },
-        { nome: "Renata Martins", cpf: "888.999.000-11", email: "renata@email.com", plano: "Mensal", status: "Ativo" },
-        { nome: "Bruno Teixeira", cpf: "999.000.111-22", email: "bruno@email.com", plano: "Trimestral", status: "Inativo" },
-        { nome: "Larissa Melo", cpf: "000.111.222-33", email: "larissa@email.com", plano: "Anual", status: "Ativo" },
-        { nome: "Thiago Fernandes", cpf: "111.222.333-44", email: "thiago@email.com", plano: "Mensal", status: "Ativo" },
-        { nome: "Patrícia Ramos", cpf: "222.333.444-55", email: "patricia@email.com", plano: "Trimestral", status: "Inativo" },
-        { nome: "Rafael Castro", cpf: "333.444.555-66", email: "rafael@email.com", plano: "Anual", status: "Ativo" },
-        { nome: "Isabela Pires", cpf: "444.555.666-77", email: "isabela@email.com", plano: "Mensal", status: "Ativo" },
-        { nome: "Lucas Almeida", cpf: "555.666.777-88", email: "lucas@email.com", plano: "Trimestral", status: "Inativo" },
-        { nome: "Camila Duarte", cpf: "666.777.888-99", email: "camila@email.com", plano: "Anual", status: "Ativo" },
-        { nome: "André Gonçalves", cpf: "777.888.999-00", email: "andre@email.com", plano: "Mensal", status: "Ativo" },
-        { nome: "Fernanda Nunes", cpf: "888.999.000-11", email: "fernanda@email.com", plano: "Trimestral", status: "Inativo" }
-    ]);
+  const URL = "http://localhost:8080/api/";
+  const [alunos, setAlunos] = useState([
+      { nome: "João Silva", cpf: "123.456.789-00", email: "joao@email.com", plano: "Mensal", status: "Ativo" },
+  ]);
 
   const [ordem, setOrdem] = useState({ coluna: 'nome', direcao: 'asc' });
   const [filtro, setFiltro] = useState('');
 
+  const buscarAlunos = () => {
+    fetch(URL+"alunos")
+    .then((res) => {
+      if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
+      return res.json();
+    })
+      .then((data) => {
+        const ativos = data.map((a) => ({
+          cpf: a.cpf,
+          nome: a.nome,
+          email: a.email,
+          idade : a.idade,
+          plano: a.plano,
+          status: a.ativo === true ? "Ativo" : "Inativo"
+        }));
+        setAlunos(ativos);
+      })
+      .catch((error) => {
+        console.error("Erro ao carregar os alunos:", error);
+      });
+      
+    };
+
   useEffect(() => {
+    buscarAlunos();
     ordenarLista('nome', 'asc');
   }, []);
 
@@ -57,6 +63,24 @@ export default function Alunos() {
   const alunosFiltrados = alunos.filter((aluno) =>
     aluno.nome.toLowerCase().includes(filtro.toLowerCase())
   );
+
+  const handleDelete = (cpf) => {
+    if (!window.confirm("Deseja realmente excluir este aluno?")) return;
+
+    fetch(`${URL}alunos/delete?cpf=${cpf}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao excluir");
+        buscarAlunos();
+      })
+      .catch((err) => {
+        console.error("Erro ao excluir:", err);
+        alert("Erro ao excluir Aluno");
+      });
+      alert("Aluno excluído com sucesso!");
+  };
+
 
   return (
     <div className="alunos-container" style={{ backgroundImage: `url(${fundo})` }}>
@@ -94,8 +118,10 @@ export default function Alunos() {
                 <td>{aluno.plano}</td>
                 <td>{aluno.status}</td>
                 <td className="acoes">
-                  <button className="editar"><FaEdit /></button>
-                  <button className="excluir"><FaTrash /></button>
+                  <button className="editar" 
+                  onClick={() => alert("Função de edição ainda não implementada")}><FaEdit /></button>
+                  <button className="excluir"
+                   onClick={() => handleDelete(aluno.cpf)}><FaTrash /></button>
                 </td>
               </tr>
             ))}
