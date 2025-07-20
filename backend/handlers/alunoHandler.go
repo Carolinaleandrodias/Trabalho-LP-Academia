@@ -109,3 +109,25 @@ func UpdateAluno(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(aluno)
 }
+
+func GetAtivos(w http.ResponseWriter, r *http.Request) {
+	alunosAtivos, err := database.AlunosAtivos()
+	if err != nil {
+		http.Error(w, "Erro ao buscar os alunos ativos", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(alunosAtivos)
+}
+
+func GetInativos(w http.ResponseWriter, r *http.Request) {
+	alunosInativos, err := database.AlunosInativos()
+	if err != nil {
+		http.Error(w, "Erro ao buscar os alunos inativos", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(alunosInativos)
+}
