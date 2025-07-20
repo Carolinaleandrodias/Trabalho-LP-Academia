@@ -120,6 +120,54 @@ func BuscarAlunoPorID(id int) (models.Aluno, error) {
 	return a, err
 }
 
+func AlunosAtivos() ([]models.Aluno, error) {
+	rows, err := DB.Query("SELECT cpf, nome, email, idade, plano, ativo FROM alunos WHERE ativo=true")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var ativos []models.Aluno
+	for rows.Next() {
+		var ativo models.Aluno
+		if err := rows.Scan(&ativo.CPF, &ativo.Nome, &ativo.Email, &ativo.Idade, &ativo.Plano, &ativo.Ativo); err != nil {
+			return nil, err
+		}
+		ativos = append(ativos, ativo)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return ativos, nil
+
+}
+
+func AlunosInativos() ([]models.Aluno, error) {
+	rows, err := DB.Query("SELECT cpf, nome, email, idade, plano, ativo FROM alunos WHERE ativo=false")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var inativos []models.Aluno
+	for rows.Next() {
+		var inativo models.Aluno
+		if err := rows.Scan(&inativo.CPF, &inativo.Nome, &inativo.Email, &inativo.Idade, &inativo.Plano, &inativo.Ativo); err != nil {
+			return nil, err
+		}
+		inativos = append(inativos, inativo)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return inativos, nil
+
+}
+
 func CriarAluno(cpf, nome, email string, idade int, plano string, ativo bool) error {
 	_, err := DB.Exec(
 		"INSERT INTO alunos (cpf, nome, email, idade, plano, ativo) VALUES (?, ?, ?, ?, ?, ?)",

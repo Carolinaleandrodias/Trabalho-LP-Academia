@@ -32,6 +32,8 @@ func main() {
 	mux.HandleFunc("/api/alunos", handlers.ListAlunos)             //Lista todos os alunos cadastrados
 	mux.HandleFunc("/api/alunos/create", handlers.CreateAluno)     //Cadastra um novo aluno
 	mux.HandleFunc("/api/alunos/get", handlers.GetAlunoByID)       //Busca um aluno pelo id
+	mux.HandleFunc("/api/alunos/ativos", handlers.GetAtivos)
+	mux.HandleFunc("/api/alunos/inativos", handlers.GetInativos)
 	mux.HandleFunc("/api/alunos/delete", handlers.DeleteAluno)
 	mux.HandleFunc("/api/alunos/update", handlers.UpdateAluno)
 	mux.HandleFunc("/api/funcionarios", handlers.ListFuncionarios)
