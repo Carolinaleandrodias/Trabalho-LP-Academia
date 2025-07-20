@@ -46,6 +46,11 @@ func InitDB() {
         ativo BOOLEAN NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS treinos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        segunda 
+    );
+
 	CREATE TABLE IF NOT EXISTS funcionarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
 		codigo INTEGER NOT NULL,

@@ -2,6 +2,7 @@ import './inicio.css'
 import AtivosChart from '../../componentes/AlunosAtivos'
 import IdadeHistograma from '../../componentes/FaixaEtaria'
 
+
 export default function Inicio() {
   return (
     <div className='teste'>

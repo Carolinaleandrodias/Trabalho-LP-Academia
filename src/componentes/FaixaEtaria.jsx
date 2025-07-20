@@ -72,7 +72,7 @@ export default function IdadeHistograma() {
   const contFaixas = faixaEtaria(alunos, intervalos);
 
   const data = [
-  { faixa: '0 a 15', alunos: contFaixas["0 a "] },
+  { faixa: '0 a 15', alunos: contFaixas["0 a 15"] },
   { faixa: '16 a 30', alunos: contFaixas["16 a 30"] },
   { faixa: '31 a 45', alunos: contFaixas["31 a 45"] },
   { faixa: '46 a 60', alunos: contFaixas["46 a 60"] },
@@ -81,7 +81,7 @@ export default function IdadeHistograma() {
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data} margin={{ top: 20, right: 5, left: 5, bottom: 5 }}>
+      <BarChart data={data} margin={{ top: 20, right: 5, left: 2, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="faixa" />
         <YAxis />

@@ -33,6 +33,8 @@ export default function TabelaFuncionarios() {
   const [funcionarios, setFuncionarios] = useState([]);
   const [erro, setErro] = useState(null);
 
+  const [abaAtiva, setAbaAtiva] = useState("faturamento");
+
   const URL = "http://34.151.229.132:8080/api/"
 
   const [modalAberto, setModalAberto] = useState(false);
@@ -194,86 +196,111 @@ export default function TabelaFuncionarios() {
     },
   };
 
-  return (
-     <div
-      className="container2"
-      style={{
-        backgroundImage: `url(${fundo})`,
-      }}
-    > 
-      <div>
-        <button onClick={() => setModalAberto(true)} className="botao-cadastrar">
+  
+  return(
+    <div className="container2" style={{ backgroundImage: `url(${fundo})` }}>
+      {/* Cabeçalho com abas */}
+      <div className="header-tabs">
+        <div
+          className={`tab ${abaAtiva === "faturamento" ? "ativa" : ""}`}
+          onClick={() => setAbaAtiva("faturamento")}
+        >
+          Faturamento
+        </div>
+        <div
+          className={`tab ${abaAtiva === "funcionarios" ? "ativa" : ""}`}
+          onClick={() => setAbaAtiva("funcionarios")}
+        >
+          Funcionários
+        </div>
+
+        <button
+          className="botao-cadastrar"
+          onClick={() => setModalAberto(true)}
+        >
           Cadastrar Funcionário
         </button>
-
-        <ModalCadastroFuncionario
-          aberto={modalAberto}
-          fechar={() => setModalAberto(false)}
-          formData={formData}
-          setFormData={setFormData}
-          handleSubmit={handleSubmit}
-        />
       </div>
 
-      
-      {/* Gráficos */}
-      <div className="card" style={{ padding: 24 }}>
-        <h3 style={{ marginBottom: 16, color: "#222" }}>
-          Faturamento Semanal (R$)
-        </h3>
-        <Line data={dataFaturamentoMensal} options={optionsFaturamentoMensal} />
-      </div>
+      {/* Modal */}
+      <ModalCadastroFuncionario
+        aberto={modalAberto}
+        fechar={() => setModalAberto(false)}
+        formData={formData}
+        setFormData={setFormData}
+        handleSubmit={handleSubmit}
+      />
 
-      {/* Tabela */}
-      <div className="card" style={{ marginTop: 32 }}>
-        <div className="card-header">
-          <h2>Lista de Funcionários</h2>
-        </div>
-        <div className="card-body">
-          {erro && <p className="erro">{erro}</p>}
-          <div className="table-wrapper">
-            <table className="tabela-funcionarios">
-              <thead>
-                <tr>
-                  <th>CÓDIGO</th>
-                  <th>NOME</th>
-                  <th>CPF</th>
-                  <th>TURNO</th>
-                  <th style={{ width: 'clamp(60px, 8vw, 100px)' }}>AÇÕES</th>
-                </tr>
-              </thead>
-              <tbody>
-                {funcionarios.length === 0 ? (
-                  <tr>
-                    <td colSpan="5">Nenhum funcionário encontrado.</td>
-                  </tr>
-                ) : (
-                  funcionarios.map((f) => (
-                    <tr key={f.codigo}>
-                      <td>{f.codigo}</td>
-                      <td>{f.nome}</td>
-                      <td>{f.cpf}</td>
-                      <td>{f.turno}</td>
-                      <td>
-                        <button 
-                          className="buttonIcon"
-                          onClick={() => alert("Função de edição ainda não implementada")}>
-                          <MdEdit size={18} color="#2980b9" />
-                        </button>
-                        <button 
-                          className="buttonIcon"
-                          onClick={() => handleDelete(f.codigo)}>
-                          <MdDelete size={18} color="#c0392b" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+      {/* Conteúdo deslizável */}
+      <div className="slider-container">
+        <div
+          className="slider"
+          style={{ transform: `translateX(${abaAtiva === "faturamento" ? "0%" : "-100%"})` }}
+        >
+          <div className="aba">
+            <div className="card" style={{ padding: 24 }}>
+                <h3 style={{ marginBottom: 16, color: "#222" }}>Faturamento Semanal (R$)</h3>
+              <div className="chart-wrapper">
+                <Line
+                  data={dataFaturamentoMensal}
+                  options={{
+                    ...optionsFaturamentoMensal,
+                    maintainAspectRatio: false,      
+                    }}
+                    />
+              </div>
+            </div>
+          </div>
+
+          <div className="aba">
+            <div className="card" style={{ marginTop: 32 }}>
+              <div className="card-header">
+                <h2>Lista de Funcionários</h2>
+              </div>
+              <div className="card-body">
+                {erro && <p className="erro">{erro}</p>}
+                <div className="table-wrapper">
+                  <table className="tabela-funcionarios">
+                    <thead>
+                      <tr>
+                        <th>CÓDIGO</th>
+                        <th>NOME</th>
+                        <th>CPF</th>
+                        <th>TURNO</th>
+                        <th style={{ width: 'clamp(60px, 8vw, 100px)' }}>AÇÕES</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {funcionarios.length === 0 ? (
+                        <tr><td colSpan="5">Nenhum funcionário encontrado.</td></tr>
+                      ) : (
+                        funcionarios.map((f) => (
+                          <tr key={f.codigo}>
+                            <td>{f.codigo}</td>
+                            <td>{f.nome}</td>
+                            <td>{f.cpf}</td>
+                            <td>{f.turno}</td>
+                            <td>
+                              <button className="buttonIcon" onClick={() => alert("Função de edição ainda não implementada")}>
+                                <MdEdit size={18} color="#2980b9" />
+                              </button>
+                              <button className="buttonIcon" onClick={() => handleDelete(f.codigo)}>
+                                <MdDelete size={18} color="#c0392b" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+

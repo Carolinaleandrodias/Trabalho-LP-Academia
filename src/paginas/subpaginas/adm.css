@@ -5,10 +5,16 @@ html, body {
 }
 
 .container2 {
-  height: 100%;
+  height: 100vh;
   width: calc(100vw - 250px);
   padding: 20px;
-  overflow-y: auto;
+  overflow: hidden;
+  position: relative;
+
+  background-size: cover;    
+  background-position: center;
+  background-repeat: no-repeat; 
+  background-attachment: fixed;
 }
 
 .card {
@@ -18,6 +24,7 @@ html, body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .card-header {
@@ -34,6 +41,15 @@ html, body {
 
 .card-body {
   padding: 20px 24px;
+  overflow-x: auto; 
+}
+
+.chart-wrapper {
+  width: 50%;
+  height: 80vh;      
+  flex: 1;              /* Ocupa todo o espaço vertical disponível da aba */
+  position: relative;
+
 }
 
 .table-wrapper {
@@ -42,8 +58,7 @@ html, body {
 }
 
 .tabela-funcionarios {
-  width: 100%;
-  /* min-width: 1500px; */
+  width: 50%;
   border-collapse: collapse;
   box-shadow: none;
   border-radius: 0;
@@ -102,7 +117,98 @@ html, body {
   transform: scale(1.05);
 }
 
-.botao-cadastrar{
-    background-color: rgb(42, 100, 207);
-    padding: 15px;
+.botao-cadastrar {
+  background-color: rgb(31, 70, 143);
+  color: #ffffff;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  right: 24px;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+}
+
+.botao-cadastrar:hover {
+  background-color: rgb(140, 145, 155);
+}
+
+.header-tabs {
+  display: flex; 
+  align-items: center;
+  gap: 32px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #ccc;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.tab {
+  font-size: 20px;
+  font-weight: bold;
+  color: #444;
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 6px;
+  transition: color 0.3s;
+}
+
+.tab.ativa {
+  color: #1976d2;
+}
+
+.tab.ativa::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #1976d2;
+  border-radius: 2px;
+}
+
+/* Área deslizável */
+.slider-container {
+  width: 100%;
+  height: calc(100% - 90px); /* ajusta após header */
+  overflow: hidden;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  width: 200%; /* duas telas lado a lado */
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.aba {
+  width: 100%;
+  flex-shrink: 0;
+  overflow-y: auto;
+  padding-right: 12px;
+  box-sizing: border-box;
+
+  height: 100%;         /* Pega 100% da altura disponível */
+  overflow: hidden;     /* Tira scroll */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.tabs button {
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.tabs button:hover {
+  background-color: #1c5d8b;
 }
