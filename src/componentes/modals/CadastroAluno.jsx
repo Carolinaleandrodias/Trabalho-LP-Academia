@@ -1,7 +1,7 @@
 import React from "react";
-import "./CadastroFuncionario.css";
+import "./CadastroAluno.css";
 
-export default function ModalCadastroFuncionario({
+export default function ModalCadastroAluno({
   aberto,
   fechar,
   formData,
@@ -18,30 +18,9 @@ export default function ModalCadastroFuncionario({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h3 style={{ marginBottom: 16 }}>Cadastrar Funcionário</h3>
+        <h3 style={{ marginBottom: 16 }}>Cadastrar Aluno</h3>
         <form onSubmit={handleSubmit} style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center",
   justifyContent: "center"}}>
-          <input
-            type="text"
-            name="codigo"
-            placeholder="Código"
-            value={formData.codigo}
-            onChange={handleChange}
-            inputMode="numeric"
-            pattern="\d+"
-            title="Apenas números"
-            required
-          />
-          <input
-            type="text"
-            name="nome"
-            placeholder="Nome"
-            value={formData.nome}
-            onChange={handleChange}
-            pattern="[A-Za-zÀ-ÿ\s]+"
-            title="Apenas letras"
-            required
-          />
           <input
             type="text"
             name="cpf"
@@ -56,19 +35,37 @@ export default function ModalCadastroFuncionario({
             title="Digite exatamente 11 números"
             required
           />
+          <input
+            type="text"
+            name="nome"
+            placeholder="Nome"
+            value={formData.nome}
+            onChange={handleChange}
+            pattern="[A-Za-zÀ-ÿ\s]+"
+            title="Apenas letras"
+            required
+          />
+          <input
+            type="text"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
           <select
             name="turno"
             value={formData.turno}
             onChange={handleChange}
             required
           >
-            <option className="selecao" value="">Selecione o turno</option>
-            <option value="Manhã">Manhã</option>
-            <option value="Tarde">Tarde</option>
-            <option value="Noite">Noite</option>
+            <option className="selecao" value="">Selecione o plano</option>
+            <option value="Basico">Básico</option>
+            <option value="Essencial">Essencial</option>
+            <option value="Premium">Premium</option>
           </select>
           <div style={{ display: 'flex', gap: 12 }}>
-            <button className="botao-salvar" type="submit">Salvar</button>
+            <button className="botao-salvar" type="submit">Adicionar</button>
             <button type="button" onClick={fechar} className="botao-cancelar">
               Cancelar
             </button>

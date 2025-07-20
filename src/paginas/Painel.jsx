@@ -17,8 +17,8 @@ export default function Painel() {
         return <Alunos/>;
       case 'planos':
         return <Planos/>;
-      case 'fichasDeTreino':
-        return <FichasDeTreino/>;
+      // case 'fichasDeTreino':
+        // return <FichasDeTreino/>;
       case 'adm':
         return <Adm/>;
       default:
@@ -34,7 +34,7 @@ export default function Painel() {
           <li className={menuAtivo === 'inicio' ? 'ativo' : ''} onClick={() => setMenuAtivo('inicio')}>Inicio</li>
           <li className={menuAtivo === 'alunos' ? 'ativo' : ''} onClick={() => setMenuAtivo('alunos')}>Alunos</li>
           <li className={menuAtivo === 'planos' ? 'ativo' : ''} onClick={() => setMenuAtivo('planos')}>Planos</li>
-          <li className={menuAtivo === 'fichasDeTreino' ? 'ativo' : ''} onClick={() => setMenuAtivo('fichasDeTreino')}>Treinos</li>
+          {/* <li className={menuAtivo === 'fichasDeTreino' ? 'ativo' : ''} onClick={() => setMenuAtivo('fichasDeTreino')}>Treinos</li> */}
           <li className={menuAtivo === 'adm' ? 'ativo' : ''} onClick={() => setMenuAtivo('adm')}>Administrativo</li>
         </ul>
       </nav>

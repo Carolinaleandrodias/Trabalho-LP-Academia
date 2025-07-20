@@ -12,6 +12,8 @@
   justify-content: space-between;
   align-items: center;
   color: white;
+  gap: 20px;
+  position: relative;
 }
 
 .header h2 {
@@ -21,8 +23,15 @@
 
 }
 
+.center-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
 .input-container {
   position: relative;
+  width: 60%;
 }
 
 .input-pesquisa {
@@ -60,24 +69,26 @@
   padding: 12px 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  color: #000000;
 }
 
 .tabela-alunos th {
   background-color: #072b55;
   cursor: pointer;
+  color: #ffffff;
   font-weight: 600;
 }
 
 .tabela-alunos tr:nth-child(even) {
-  background-color: #2d8bba;
+  background-color: #bac1c2;
 }
 
 .tabela-alunos tr:nth-child(odd) {
-  background-color: #6ce5e8;
+  background-color: #f5f5f5;
 }
 
 .tabela-alunos tr:hover {
-  background-color: #000000;
+  background-color: #d0dae0;
 }
 
 .acoes {
@@ -105,4 +116,36 @@ button.editar:hover {
 
 button.excluir:hover {
   color: #922b21;
+}
+
+
+
+
+.botao-cadastrar {
+  background-color: rgb(31, 70, 143);
+  color: #ffffff;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  right: 24px;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+
+.icone-treino {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.icone-treino:hover {
+  color: #1a5276;
 }

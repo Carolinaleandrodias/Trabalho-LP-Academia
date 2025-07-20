@@ -1,16 +1,38 @@
 import './alunos.css'
 import { useState, useEffect } from 'react';
-import { FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaSearch, FaClipboardList, FaEdit, FaTrash } from 'react-icons/fa';
 import fundo from '../../assets/4.jpg';
+import ModalTreino from '../../componentes/modals/ModalTreino';
+import ModalCadastroAluno from '../../componentes/modals/CadastroAluno';
 
 export default function Alunos() {
-  const URL = "http://localhost:8080/api/";
-  const [alunos, setAlunos] = useState([
-      { nome: "João Silva", cpf: "123.456.789-00", email: "joao@email.com", plano: "Mensal", status: "Ativo" },
-  ]);
+  const URL = "http://34.151.229.132:8080/api/";
+  
+  const [modalAberto, setModalAberto] = useState(false);
+  const [alunoSelecionado, setAlunoSelecionado] = useState(null);
+  const [alunos, setAlunos] = useState([]);
 
   const [ordem, setOrdem] = useState({ coluna: 'nome', direcao: 'asc' });
   const [filtro, setFiltro] = useState('');
+  const [formData, setFormData] = useState({
+    codigo: "",
+    nome: "",
+    cpf: "",
+    turno: "",
+    plano:"",
+    idade:"",
+    status: "",
+  });
+
+  const abrirTreino = (aluno) => {
+    setAlunoSelecionado(aluno);
+    setModalAberto(true);
+  };
+
+  const fecharTreino = () => {
+    setModalAberto(false);
+    setAlunoSelecionado(null);
+  };
 
   const buscarAlunos = () => {
     fetch(URL+"alunos")
@@ -72,13 +94,49 @@ export default function Alunos() {
     })
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao excluir");
-        buscarAlunos();
+        else 
+        buscarAlunos(); alert("Aluno excluído com sucesso!");
       })
       .catch((err) => {
         console.error("Erro ao excluir:", err);
         alert("Erro ao excluir Aluno");
       });
-      alert("Aluno excluído com sucesso!");
+      
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch(`${URL}alunos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao cadastrar aluno");
+        return res.json();
+      })
+      .then((data) => {
+        alert("Aluno cadastrado com sucesso!",data);
+        buscarAlunos();           // Atualiza a lista
+        setModalAberto(false);    // Fecha o modal
+        setFormData({             // Limpa o formulário
+          codigo: "",
+          nome: "",
+          cpf: "",
+          email: "",
+          plano: "",
+          idade: "",
+          status: "",
+        });
+      })
+      .catch((err) => {
+        console.error("Erro no cadastro:", err);
+        alert("Erro ao cadastrar aluno");
+      });
   };
 
 
@@ -86,16 +144,35 @@ export default function Alunos() {
     <div className="alunos-container" style={{ backgroundImage: `url(${fundo})` }}>
       <div className="header">
         <h2>Alunos</h2>
-        <div className="input-container">
-          <FaSearch className="icon-search" />
-          <input
-            type="text"
-            placeholder="Pesquisar aluno..."
-            className="input-pesquisa"
-            onChange={(e) => setFiltro(e.target.value)}
-          />
+
+        <div className="center-container">
+          <div className="input-container">
+            <FaSearch className="icon-search" />
+            <input
+              type="text"
+              placeholder="Pesquisar aluno..."
+              className="input-pesquisa"
+              onChange={(e) => setFiltro(e.target.value)}
+            />
+          </div>
         </div>
+
+        <button
+          className="botao-cadastrar"
+          onClick={() => setModalAberto(true)}
+        >
+          Cadastrar Aluno
+        </button>
       </div>
+      
+      <ModalCadastroAluno
+        aberto={modalAberto}
+        fechar={() => setModalAberto(false)}
+        formData={formData}
+        setFormData={setFormData}
+        handleSubmit={handleSubmit}
+      />
+      <ModalTreino aluno={alunoSelecionado} aberto={modalAberto} fechar={fecharTreino} />
 
       <div className="tabela-wrapper">
         <table className="tabela-alunos">
@@ -104,6 +181,7 @@ export default function Alunos() {
               <th onClick={() => ordenarPor('nome')}>Nome {seta('nome')}</th>
               <th>CPF</th>
               <th>Email</th>
+              <th onClick={() => showTreino()}>Treino</th>
               <th onClick={() => ordenarPor('plano')}>Plano {seta('plano')}</th>
               <th onClick={() => ordenarPor('status')}>Status {seta('status')}</th>
               <th>Ações</th>
@@ -115,13 +193,18 @@ export default function Alunos() {
                 <td>{aluno.nome}</td>
                 <td>{aluno.cpf}</td>
                 <td>{aluno.email}</td>
+                <td>
+                  <button onClick={() => abrirTreino(aluno)} className="icone-treino">
+                    <FaClipboardList/>
+                  </button>
+                </td>
                 <td>{aluno.plano}</td>
                 <td>{aluno.status}</td>
                 <td className="acoes">
                   <button className="editar" 
-                  onClick={() => alert("Função de edição ainda não implementada")}><FaEdit /></button>
+                    onClick={() => alert("Função de edição ainda não implementada")}><FaEdit /></button>
                   <button className="excluir"
-                   onClick={() => handleDelete(aluno.cpf)}><FaTrash /></button>
+                    onClick={() => handleDelete(aluno.cpf)}><FaTrash /></button>
                 </td>
               </tr>
             ))}
