@@ -25,7 +25,7 @@ body, html {
 
 .dash {
   height: 550px;
-  width: 90%;
+  width: 95%;
   background-color: #f0f8ffcc; 
   border-radius: 16px;
   padding: 20px;
@@ -48,7 +48,7 @@ h1 {
 
 .graficos {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: flex-start;
   width: 100%;
 }
@@ -61,9 +61,10 @@ h1 {
   border-radius: 12px;
   padding: 5px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  width: 30%;
+  width: 45%;
   height: 350px;
 }
+
 
 .grafico-titulo {
   background-color: #002d64;

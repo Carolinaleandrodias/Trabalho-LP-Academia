@@ -1,7 +1,7 @@
 import './inicio.css'
 import AtivosChart from '../../componentes/AlunosAtivos'
 import IdadeHistograma from '../../componentes/FaixaEtaria'
-import ResultadosChart from '../../componentes/ResultadosChart'
+
 
 export default function Inicio() {
   return (
@@ -16,10 +16,6 @@ export default function Inicio() {
           <div className="grafico-item">
             <div className="grafico-titulo">Faixa Etária</div>
             <IdadeHistograma />
-          </div>
-          <div className="grafico-item">
-            <div className="grafico-titulo">Resultados</div>
-            <ResultadosChart />
           </div>
         </div>
       </div>
