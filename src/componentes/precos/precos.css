@@ -1,11 +1,44 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.teste2 {
+  width: calc(100vw - 250px);
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.precos {
+  width: 90%;
+  max-width: 1200px;
+  margin: 45vh auto auto auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: stretch;
+}
+
 .plano-card {
-  background-color: #0073d6; /* azul do card */
-  width: 260px;
+  background-color: #0073d6;
+  max-width: 320px;
+  min-width: 280px;
   padding: 20px;
   border-radius: 15px;
   text-align: center;
   color: white;
   font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .plano-titulo {
@@ -43,6 +76,11 @@
   border-radius: 6px;
   padding: 10px;
   color: black;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .plano-descricao-header {
@@ -55,8 +93,21 @@
 
 .plano-lista {
   list-style-type: disc;
-  padding-left: 20px;
+  padding-left: 5vh;
   text-align: left;
   font-size: 14px;
   margin: 0;
+  flex-grow: 1;
+}
+
+@media (max-width: 992px) {
+  .plano-card {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 600px) {
+  .plano-card {
+    flex: 1 1 100%;
+  }
 }

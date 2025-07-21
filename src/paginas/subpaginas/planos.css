@@ -17,8 +17,30 @@ body, html {
 }
 
 .precos {
-    width: 70%;
-    margin: 250px 360px 0px 130px;
-    display: flex;
-    justify-content: space-between;
+  width: 90%;
+  max-width: 1200px;
+  margin: 45vh auto auto auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.item-preco {
+  flex: 1 1 calc(33.333% - 20px);
+  min-width: 280px;
+  max-width: 380px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+  .item-preco {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 600px) {
+  .item-preco {
+    flex: 1 1 100%;
+  }
 }

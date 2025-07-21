@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const adm = {
-  "CPF": "adm", 
+  "CPF": "adm",
   "senha": "adm123"
 }
 export default function Login() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
@@ -31,28 +31,34 @@ export default function Login() {
 
         <form className="formulario" onSubmit={e => e.preventDefault()}>
           <label>CPF</label>
-          <input 
-            type="text" 
-            placeholder="Digite seu CPF" 
+          <input
+            type="text"
+            placeholder="Digite seu CPF"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
           />
           <label>SENHA</label>
-          <input 
-            type="password" 
-            placeholder="Digite sua senha" 
+          <input
+            type="password"
+            placeholder="Digite sua senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
-          <button 
-            type="submit" 
-            className="botao-entrar" 
+          <button
+            type="submit"
+            className="botao-entrar"
             onClick={handleLogin}
           >
             Entrar
           </button>
           {erro && <p style={{ color: 'red' }}>{erro}</p>}
-          <p className="submit">CRIAR CADASTRO</p>
+          <button
+            type="button" // Use 'button' para evitar que o formulário seja submetido
+            className="botao-cadastro" // Uma nova classe CSS para estilizar o botão
+            onClick={() => navigate('/cadastro')} // Usa o useNavigate para ir para a rota /register
+          >
+            CRIAR CADASTRO
+          </button>
         </form>
       </div>
     </div>
