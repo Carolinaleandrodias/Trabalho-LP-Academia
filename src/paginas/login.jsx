@@ -3,9 +3,9 @@ import logo from '../assets/logo.png';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:8080/api/"
 
 export default function Login() {
+  const URL = import.meta.env.VITE_APP_BACKEND_URL;
   const navigate = useNavigate();
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');

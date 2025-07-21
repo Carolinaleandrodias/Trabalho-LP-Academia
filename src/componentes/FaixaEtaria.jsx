@@ -6,7 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContaine
 
 
 export default function IdadeHistograma() {
-  const URL = "http://localhost:8080/api/";
+  const URL = import.meta.env.VITE_APP_BACKEND_URL;
 
   const[alunos, setAlunos] = useState([]);
 

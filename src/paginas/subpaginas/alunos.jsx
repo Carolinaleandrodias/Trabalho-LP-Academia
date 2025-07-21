@@ -6,7 +6,7 @@ import ModalTreino from '../../componentes/modals/ModalTreino';
 import ModalCadastroAluno from '../../componentes/modals/CadastroAluno';
 
 export default function Alunos() {
-  const URL = "http://34.151.229.132:8080/api/";
+  const URL = import.meta.env.VITE_APP_BACKEND_URL;
   
   const [modalAberto, setModalAberto] = useState(false);
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);

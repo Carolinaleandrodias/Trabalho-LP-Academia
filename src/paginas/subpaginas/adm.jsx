@@ -35,7 +35,7 @@ export default function TabelaFuncionarios() {
 
   const [abaAtiva, setAbaAtiva] = useState("faturamento");
 
-  const URL = "http://34.151.229.132:8080/api/"
+  const URL = import.meta.env.VITE_APP_BACKEND_URL;
 
   const [modalAberto, setModalAberto] = useState(false);
   const [formData, setFormData] = useState({
