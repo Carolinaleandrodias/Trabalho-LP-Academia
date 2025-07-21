@@ -22,7 +22,7 @@ body, html {
   margin: 45vh auto auto auto;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 20px;
   align-items: stretch;
 }

@@ -46,18 +46,20 @@ func InitDB() {
         ativo BOOLEAN NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS treinos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        segunda 
-    );
-
 	CREATE TABLE IF NOT EXISTS funcionarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
 		codigo INTEGER NOT NULL,
         cpf TEXT NOT NULL UNIQUE,
         nome TEXT NOT NULL,
         turno TEXT NOT NULL
-    );`
+    );
+
+	CREATE TABLE IF NOT EXISTS treinos (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		cpf TEXT NOT NULL UNIQUE,
+		treino TEXT NOT NULL
+	);
+	`
 
 	_, err = DB.Exec(createTable)
 	if err != nil {
@@ -178,6 +180,7 @@ func CriarAluno(cpf, nome, email string, idade int, plano string, ativo bool) er
 		"INSERT INTO alunos (cpf, nome, email, idade, plano, ativo) VALUES (?, ?, ?, ?, ?, ?)",
 		cpf, nome, email, idade, plano, ativo,
 	)
+	println("cpf %s , nome %s, email %s, idade %d, plano %s, ativo %b", cpf, nome, email, idade, plano, ativo)
 	return err
 }
 
@@ -238,6 +241,27 @@ func AtualizarFuncionario(f models.Funcionario) error {
 	_, err := DB.Exec(
 		"UPDATE funcionarios SET codigo=?, cpf=?, nome=?, turno=? WHERE id=?",
 		f.Codigo, f.CPF, f.Nome, f.Turno, f.ID,
+	)
+	return err
+}
+
+func BuscarTreino(cpf int) (string, error) {
+	var treino string
+	err := DB.QueryRow("SELECT treino FROM treinos WHERE cpf = ?", cpf).Scan(&treino)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return "", fmt.Errorf("treino não encontrado para o CPF: %d", cpf)
+		}
+		return "", fmt.Errorf("erro ao buscar treino para o CPF %d: %w", cpf, err)
+	}
+
+	return treino, nil
+}
+
+func CriarTreino(cpf string, treino string) error {
+	_, err := DB.Exec(
+		"INSERT INTO treinos (cpf, treino) VALUES (?, ?)",
+		cpf, treino,
 	)
 	return err
 }

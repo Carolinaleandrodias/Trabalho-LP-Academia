@@ -1,23 +1,36 @@
-import './login.css'
-import logo from '../assets/logo.png';
+/* ⚛ REACT */
 import { useState } from 'react';
+
+/* 📦 LIBS */
 import { useNavigate } from 'react-router-dom';
 
+/* 🎨 STYLES */
+import { Container, Link } from "./styles";
+
+/* 📁 ASSETS */
+import logo from '../../assets/logo.png';
+
+;
 
 export default function Login() {
   const URL = import.meta.env.VITE_APP_BACKEND_URL;
   const navigate = useNavigate();
-  const [cpf, setCpf] = useState('');
+  const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = () => {
+
+    if (!username || !senha ) {
+      setError("Login inválido");
+      return;
+    }
 
     fetch(URL + "login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            Usuario: cpf, 
+            Usuario: username, 
             Senha: senha  
         }),
     })
@@ -44,7 +57,7 @@ export default function Login() {
         return res.json(); 
     })
     .then((retornoCPF) => {
-        if (retornoCPF == cpf) { 
+        if (retornoCPF == username) { 
             alert("Login realizado com sucesso!");
             console.log("Usuário logado:", retornoCPF);
             navigate('/painel');
@@ -64,7 +77,7 @@ export default function Login() {
   };
 
   return (
-    <div className="container">
+    <Container>
       <div className="login-box">
         <div className="logo">
           <img src={logo} alt="Logo MoveOn" className="logo-img" />
@@ -72,12 +85,12 @@ export default function Login() {
         <h1 className="bem-vindo">Seja bem-vindo!</h1>
 
         <form className="formulario" onSubmit={e => e.preventDefault()}>
-          <label>CPF</label>
+          <label>NOME</label>
           <input
             type="text"
-            placeholder="Digite seu CPF"
-            value={cpf}
-            onChange={(e) => setCpf(e.target.value)}
+            placeholder="Digite seu nome de usuário"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <label>SENHA</label>
           <input
@@ -86,23 +99,13 @@ export default function Login() {
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
-          <button
-            type="submit"
-            className="botao-entrar"
-            onClick={handleLogin}
-          >
+          <Link to="/cadastro">Não tem uma conta? Cadastre-se</Link>
+          <button type="submit" className="enter-button" onClick={() => handleLogin()}>
             Entrar
           </button>
-          {erro && <p style={{ color: 'red' }}>{erro}</p>}
-          <button
-            type="button" // Use 'button' para evitar que o formulário seja submetido
-            className="botao-cadastro" // Uma nova classe CSS para estilizar o botão
-            onClick={() => navigate('/cadastro')} // Usa o useNavigate para ir para a rota /register
-          >
-            CRIAR CADASTRO
-          </button>
+          {error && <span className='error-message'>{error}</span>}
         </form>
       </div>
-    </div>
+    </Container>
   );
 }
