@@ -59,7 +59,12 @@ export default function ModalCadastroAluno({
             name="idade"
             placeholder="Idade"
             value={formDataAluno.idade}
-            onChange={handleChange}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              setFormDataAluno({ ...formDataAluno, idade: value });
+            }}
+            maxLength="3"
+            // pattern="\d{3}"
             required
           />
           <select

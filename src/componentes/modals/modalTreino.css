@@ -21,6 +21,10 @@
   overflow-y: auto;
 }
 
+.modal-treino h2{
+  color: #333;
+}
+
 .dias-container {
   display: flex;
   flex-direction: column;
