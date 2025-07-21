@@ -133,7 +133,7 @@ export default function TabelaFuncionarios() {
     labels: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"],
     datasets: [
       {
-        label: "Faturamento Semanal (R$)",
+        label: "Faturamento (R$)",
         data: [100, 250, 200, 170, 150, 220, 190],
         borderColor: "#1976d2",
         backgroundColor: "rgba(25, 118, 210, 0.3)",

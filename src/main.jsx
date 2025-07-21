@@ -5,12 +5,14 @@ import Login from './paginas/login.jsx'
 import Inicio from './paginas/subpaginas/inicio.jsx'
 import './index.css'
 import Painel from './paginas/Painel'
+import Cadastro from './paginas/cadastro.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />     
+        <Route path="/cadastro" element={<Cadastro />} />     
         <Route path="/inicio" element={<Inicio />} />    
         <Route path="/painel" element={<Painel />} />   
       </Routes>

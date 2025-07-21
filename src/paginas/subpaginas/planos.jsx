@@ -11,9 +11,15 @@ export default function Planos() {
       style={{ backgroundImage: `url(${fundo})` }}
     >
       <div className="precos">
-        <Basico />
-        <Essencial />
-        <Premium />
+        <div className="item-preco">
+          <Basico/>
+        </div>
+        <div className="item-preco">
+          <Essencial/>
+        </div>
+        <div className="item-preco">
+          <Premium/>
+        </div>
       </div>
     </div>
   );
