@@ -41,6 +41,8 @@ func main() {
 	mux.HandleFunc("/api/funcionarios/create", handlers.CreateFuncionario)
 	mux.HandleFunc("/api/funcionarios/delete", handlers.DeleteFuncionario)
 	mux.HandleFunc("/api/funcionarios/update", handlers.UpdateFuncionario)
+	mux.HandleFunc("/api/alunos/treino", handlers.GetTreinoByCpf)
+	mux.HandleFunc("/api/alunos/treino/create", handlers.CreateTreino)
 
 	fmt.Println("Backend Go rodando na porta 8080...")
 	log.Fatal(http.ListenAndServe(":8080", enableCORS(mux)))

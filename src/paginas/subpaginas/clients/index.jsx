@@ -1,27 +1,41 @@
-import './alunos.css'
-import { useState, useEffect } from 'react';
+/* ⚛ REACT */
+import { useState, useEffect, useContext } from 'react';
+
+/* 📦 LIBS */
 import { FaSearch, FaClipboardList, FaEdit, FaTrash } from 'react-icons/fa';
-import fundo from '../../assets/4.jpg';
-import ModalTreino from '../../componentes/modals/ModalTreino';
-import ModalCadastroAluno from '../../componentes/modals/CadastroAluno';
+import SVG from 'react-inlinesvg';
+
+/* 🧩 COMPONENTS */
+import ModalTreino from '../../../componentes/modals/ModalTreino';
+import ModalCadastroAluno from '../../../componentes/modals/CadastroAluno';
+
+/* 🎨 STYLES */
+// import './alunos.css'
+import { Container } from "./styles";
+
+/* 📁 ASSETS */
+import { menuIcon } from "../../../assets/icons";
+
+import { MenuContext } from '../../../context/MenuContext';
 
 export default function Alunos() {
   const URL = import.meta.env.VITE_APP_BACKEND_URL;
-  
+
+  const { switchMenu } = useContext(MenuContext);
+
   const [modalAberto, setModalAberto] = useState(false);
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);
   const [alunos, setAlunos] = useState([]);
 
   const [ordem, setOrdem] = useState({ coluna: 'nome', direcao: 'asc' });
   const [filtro, setFiltro] = useState('');
-  const [formData, setFormData] = useState({
-    codigo: "",
-    nome: "",
+  const [formDataAluno, setFormDataAluno] = useState({
     cpf: "",
-    turno: "",
-    plano:"",
-    idade:"",
-    status: "",
+    nome: "",
+    email: "",
+    idade: "",
+    plano: "",
+    ativo: true,
   });
 
   const abrirTreino = (aluno) => {
@@ -35,27 +49,27 @@ export default function Alunos() {
   };
 
   const buscarAlunos = () => {
-    fetch(URL+"alunos")
-    .then((res) => {
-      if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
-      return res.json();
-    })
+    fetch(URL + "alunos")
+      .then((res) => {
+        if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
         const ativos = data.map((a) => ({
           cpf: a.cpf,
           nome: a.nome,
           email: a.email,
-          idade : a.idade,
+          idade: a.idade,
           plano: a.plano,
-          status: a.ativo === true ? "Ativo" : "Inativo"
+          ativo: a.ativo === true ? "Ativo" : "Inativo"
         }));
         setAlunos(ativos);
       })
       .catch((error) => {
         console.error("Erro ao carregar os alunos:", error);
       });
-      
-    };
+
+  };
 
   useEffect(() => {
     buscarAlunos();
@@ -94,43 +108,51 @@ export default function Alunos() {
     })
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao excluir");
-        else 
-        buscarAlunos(); alert("Aluno excluído com sucesso!");
+        else
+          buscarAlunos(); alert("Aluno excluído com sucesso!");
       })
       .catch((err) => {
         console.error("Erro ao excluir:", err);
         alert("Erro ao excluir Aluno");
       });
-      
-  };
 
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch(`${URL}alunos`, {
+
+    const dadosParaEnviar = {
+      ...formDataAluno,
+      idade: parseInt(formDataAluno.idade, 10),
+    };
+
+
+    console.log(JSON.stringify(dadosParaEnviar))
+
+
+    fetch(`${URL}alunos/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(dadosParaEnviar),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao cadastrar aluno");
         return res.json();
       })
       .then((data) => {
-        alert("Aluno cadastrado com sucesso!",data);
-        buscarAlunos();           // Atualiza a lista
-        setModalAberto(false);    // Fecha o modal
-        setFormData({             // Limpa o formulário
-          codigo: "",
-          nome: "",
+        alert("Aluno cadastrado com sucesso!", data);
+        buscarAlunos();           
+        setModalAberto(false);    
+        setFormDataAluno({             
           cpf: "",
+          nome: "",
           email: "",
+          idade: 0,
           plano: "",
-          idade: "",
-          status: "",
+          ativo: true,
         });
       })
       .catch((err) => {
@@ -141,7 +163,8 @@ export default function Alunos() {
 
 
   return (
-    <div className="alunos-container" style={{ backgroundImage: `url(${fundo})` }}>
+    <Container>
+      <SVG src={menuIcon} className="menu-icon" onClick={() => switchMenu()} />
       <div className="header">
         <h2>Alunos</h2>
 
@@ -164,12 +187,12 @@ export default function Alunos() {
           Cadastrar Aluno
         </button>
       </div>
-      
+
       <ModalCadastroAluno
         aberto={modalAberto}
         fechar={() => setModalAberto(false)}
-        formData={formData}
-        setFormData={setFormData}
+        formDataAluno={formDataAluno}
+        setFormDataAluno={setFormDataAluno}
         handleSubmit={handleSubmit}
       />
       <ModalTreino aluno={alunoSelecionado} aberto={modalAberto} fechar={fecharTreino} />
@@ -195,13 +218,13 @@ export default function Alunos() {
                 <td>{aluno.email}</td>
                 <td>
                   <button onClick={() => abrirTreino(aluno)} className="icone-treino">
-                    <FaClipboardList/>
+                    <FaClipboardList />
                   </button>
                 </td>
                 <td>{aluno.plano}</td>
-                <td>{aluno.status}</td>
+                <td>{aluno.ativo}</td>
                 <td className="acoes">
-                  <button className="editar" 
+                  <button className="editar"
                     onClick={() => alert("Função de edição ainda não implementada")}><FaEdit /></button>
                   <button className="excluir"
                     onClick={() => handleDelete(aluno.cpf)}><FaTrash /></button>
@@ -211,6 +234,6 @@ export default function Alunos() {
           </tbody>
         </table>
       </div>
-    </div>
+    </Container>
   );
 }

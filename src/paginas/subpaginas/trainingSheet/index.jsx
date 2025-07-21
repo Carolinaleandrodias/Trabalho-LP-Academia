@@ -1,6 +1,8 @@
-import './fichasDeTreino.css';
-import fundo from '../../assets/6.jpg';
+/* ⚛ REACT */
 import { useState } from 'react';
+
+/* 🎨 STYLES */
+import { Container } from "./styles";
 
 export default function FichasDeTreino() {
   const [cpfBusca, setCpfBusca] = useState('');
@@ -75,10 +77,7 @@ export default function FichasDeTreino() {
   const cpfValido = cpfBusca.trim() === aluno.cpf;
 
   return (
-    <div
-      className="ficha-container"
-      style={{ backgroundImage: `url(${fundo})` }}
-    >
+    <Container>
       <div className="ficha-conteudo">
         <div className="cpf-search">
           <label htmlFor="cpf">Buscar CPF:</label>
@@ -117,6 +116,6 @@ export default function FichasDeTreino() {
           </>
         )}
       </div>
-    </div>
+    </Container>
   );
 }

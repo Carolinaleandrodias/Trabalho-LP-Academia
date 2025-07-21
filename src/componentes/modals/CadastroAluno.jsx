@@ -4,15 +4,16 @@ import "./CadastroAluno.css";
 export default function ModalCadastroAluno({
   aberto,
   fechar,
-  formData,
-  setFormData,
+  formDataAluno,
+  setFormDataAluno,
   handleSubmit
 }) {
   if (!aberto) return null;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    setFormDataAluno({ ...formDataAluno, [name]: value });
   };
 
   return (
@@ -25,10 +26,10 @@ export default function ModalCadastroAluno({
             type="text"
             name="cpf"
             placeholder="CPF (somente números)"
-            value={formData.cpf}
+            value={formDataAluno.cpf}
             onChange={(e) => {
               const value = e.target.value.replace(/\D/g, "");
-              setFormData({ ...formData, cpf: value });
+              setFormDataAluno({ ...formDataAluno, cpf: value });
             }}
             maxLength="11"
             pattern="\d{11}"
@@ -39,7 +40,7 @@ export default function ModalCadastroAluno({
             type="text"
             name="nome"
             placeholder="Nome"
-            value={formData.nome}
+            value={formDataAluno.nome}
             onChange={handleChange}
             pattern="[A-Za-zÀ-ÿ\s]+"
             title="Apenas letras"
@@ -49,13 +50,21 @@ export default function ModalCadastroAluno({
             type="text"
             name="email"
             placeholder="Email"
-            value={formData.email}
+            value={formDataAluno.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="idade"
+            placeholder="Idade"
+            value={formDataAluno.idade}
             onChange={handleChange}
             required
           />
           <select
-            name="turno"
-            value={formData.turno}
+            name="plano"
+            value={formDataAluno.plano}
             onChange={handleChange}
             required
           >
@@ -64,6 +73,7 @@ export default function ModalCadastroAluno({
             <option value="Essencial">Essencial</option>
             <option value="Premium">Premium</option>
           </select>
+
           <div style={{ display: 'flex', gap: 12 }}>
             <button className="botao-salvar" type="submit">Adicionar</button>
             <button type="button" onClick={fechar} className="botao-cancelar">
