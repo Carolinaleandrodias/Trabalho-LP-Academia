@@ -12,6 +12,8 @@ export default function Cadastro() {
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
 
+  const URL = "http://localhost:8080/api/"
+
   const handleRegister = (e) => {
     e.preventDefault(); // Impede o recarregamento da página
 
@@ -31,6 +33,24 @@ export default function Cadastro() {
     // Aqui você faria a lógica para registrar o usuário,
     // por exemplo, enviando os dados para uma API.
     // Por enquanto, vamos simular um registro bem-sucedido.
+    fetch(URL+"usuarios/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        usuario: nome,
+        senha: senha,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao cadastrar usuário");
+        return res.json();
+      })
+      .catch((err) => {
+        console.error("Erro ao cadastrar:", err);
+        alert("Erro ao cadastrar usuário");
+      });
+
+
     console.log('Usuário registrado:', { nome, senha });
     setSucesso('Cadastro realizado com sucesso! Redirecionando para o login...');
 
@@ -79,7 +99,7 @@ export default function Cadastro() {
           <button
             type="submit"
             className="botao-registrar" // Novo nome de classe para o botão
-          >
+            onClick={(e) => handleRegister(e.target.value) }>
             Cadastrar
           </button>
 
