@@ -11,8 +11,7 @@ export default function AtivosChart() {
 
 
 
-  const URL = "http://localhost:8080/api/";
-
+  const URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 
 
