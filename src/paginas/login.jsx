@@ -3,10 +3,8 @@ import logo from '../assets/logo.png';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const adm = {
-  "CPF": "adm",
-  "senha": "adm123"
-}
+const URL = "http://localhost:8080/api/"
+
 export default function Login() {
   const navigate = useNavigate();
   const [cpf, setCpf] = useState('');
@@ -14,11 +12,55 @@ export default function Login() {
   const [erro, setErro] = useState('');
 
   const handleLogin = () => {
-    if (cpf === adm.CPF && senha === adm.senha) {
-      navigate('/painel');
-    } else {
-      setErro('CPF ou senha inválidos!');
-    }
+
+    fetch(URL + "login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            Usuario: cpf, 
+            Senha: senha  
+        }),
+    })
+    .then((res) => {
+        if (!res.ok) {
+
+            return res.json().then(errorData => {
+
+                if (res.status === 401) {
+                    throw new Error("Credenciais inválidas. Verifique seu CPF e senha.");
+                }
+
+                throw new Error(errorData.message || `Erro do servidor com status: ${res.status}`);
+            }).catch(() => {
+
+                if (res.status === 401) {
+                    throw new Error("Credenciais inválidas. Verifique seu CPF e senha.");
+                }
+
+                throw new Error(`Erro de rede ou servidor com status: ${res.status}.`);
+            });
+        }
+
+        return res.json(); 
+    })
+    .then((retornoCPF) => {
+        if (retornoCPF == cpf) { 
+            alert("Login realizado com sucesso!");
+            console.log("Usuário logado:", retornoCPF);
+            navigate('/painel');
+
+
+        } else {
+
+            alert("Erro na validação do usuário retornado. Tente novamente.");
+            console.error("Erro: CPF retornado diferente do CPF fornecido ou formato inesperado:", retornoCPF);
+        }
+    })
+    .catch((err) => {
+
+        console.error("Erro durante o processo de login:", err.message);
+        alert(`Falha ao fazer login: ${err.message}`);
+    });
   };
 
   return (
