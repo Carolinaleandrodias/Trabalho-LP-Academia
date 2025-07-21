@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"log"
 
+	"math/rand"
+	"time"
+
 	"backend/models"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -14,6 +17,7 @@ import (
 var DB *sql.DB
 
 func InitDB() {
+	rand.Seed(time.Now().UnixNano())
 	var err error
 	DB, err = sql.Open("sqlite3", "database/app.db")
 	if err != nil {
@@ -180,7 +184,12 @@ func CriarAluno(cpf, nome, email string, idade int, plano string, ativo bool) er
 		"INSERT INTO alunos (cpf, nome, email, idade, plano, ativo) VALUES (?, ?, ?, ?, ?, ?)",
 		cpf, nome, email, idade, plano, ativo,
 	)
-	println("cpf %s , nome %s, email %s, idade %d, plano %s, ativo %b", cpf, nome, email, idade, plano, ativo)
+	opcoes := []string{"ABC", "ABCDE", "FULLBODY"}
+	escolha := rand.Intn(len(opcoes))
+	treino := opcoes[escolha]
+	fmt.Printf("Treino escolhido: %s \n", treino)
+	CriarTreino(cpf, treino)
+	fmt.Printf("cpf %s , nome %s, email %s, idade %d, plano %s, ativo %t \n", cpf, nome, email, idade, plano, ativo)
 	return err
 }
 
@@ -263,5 +272,6 @@ func CriarTreino(cpf string, treino string) error {
 		"INSERT INTO treinos (cpf, treino) VALUES (?, ?)",
 		cpf, treino,
 	)
+	fmt.Printf("Treino %s do usuário %s criado \n", treino, cpf)
 	return err
 }

@@ -150,7 +150,7 @@ export default function Alunos() {
           cpf: "",
           nome: "",
           email: "",
-          idade: 0,
+          idade: "",
           plano: "",
           ativo: true,
         });
@@ -195,7 +195,10 @@ export default function Alunos() {
         setFormDataAluno={setFormDataAluno}
         handleSubmit={handleSubmit}
       />
-      <ModalTreino aluno={alunoSelecionado} aberto={modalAberto} fechar={fecharTreino} />
+      <ModalTreino aluno={alunoSelecionado} 
+      aberto={modalAberto} 
+      fechar={fecharTreino} 
+      />
 
       <div className="tabela-wrapper">
         <table className="tabela-alunos">
