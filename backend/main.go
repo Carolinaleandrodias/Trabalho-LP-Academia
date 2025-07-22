@@ -26,12 +26,12 @@ func main() {
 	database.InitDB()
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/api/login", handlers.Login)                   //Rota de login
-	mux.HandleFunc("/api/usuarios/create", handlers.CreateUsuario) //Criar usuário
-	mux.HandleFunc("/api/usuarios/delete", handlers.DeleteUsuario) //Deletar usuário
-	mux.HandleFunc("/api/alunos", handlers.ListAlunos)             //Lista todos os alunos cadastrados
-	mux.HandleFunc("/api/alunos/create", handlers.CreateAluno)     //Cadastra um novo aluno
-	mux.HandleFunc("/api/alunos/get", handlers.GetAlunoByID)       //Busca um aluno pelo id
+	mux.HandleFunc("/api/login", handlers.Login)
+	mux.HandleFunc("/api/usuarios/create", handlers.CreateUsuario)
+	mux.HandleFunc("/api/usuarios/delete", handlers.DeleteUsuario)
+	mux.HandleFunc("/api/alunos", handlers.ListAlunos)
+	mux.HandleFunc("/api/alunos/create", handlers.CreateAluno)
+	mux.HandleFunc("/api/alunos/get", handlers.GetAlunoByID)
 	mux.HandleFunc("/api/alunos/ativos", handlers.GetAtivos)
 	mux.HandleFunc("/api/alunos/inativos", handlers.GetInativos)
 	mux.HandleFunc("/api/alunos/delete", handlers.DeleteAluno)
