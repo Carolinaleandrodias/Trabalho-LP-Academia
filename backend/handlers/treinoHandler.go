@@ -18,9 +18,8 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 		Sexta   []string `json:"sexta,omitempty"`
 	}
 
-	var treinoRetorno TreinoPadrao // Variável para armazenar o treino encontrado
+	var treinoRetorno TreinoPadrao
 
-	// Usamos um switch case para mapear o nome do treino para a estrutura correspondente
 	switch nomeDoTreino {
 	case "ABC":
 		treinoRetorno = TreinoPadrao{
@@ -68,7 +67,7 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 		}
 	case "ABCDE":
 		treinoRetorno = TreinoPadrao{
-			Segunda: []string{ // Dia de Treino de Peito Completo
+			Segunda: []string{
 				"Supino Reto com Barra (4 séries de 8-12 repetições)",
 				"Supino Inclinado com Halteres (3 séries de 10-15 repetições)",
 				"Crucifixo Reto ou Voador (3 séries de 12-15 repetições)",
@@ -76,7 +75,7 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 				"Supino Declinado com Barra ou Halteres (3 séries de 8-12 repetições)",
 				"Flexões (Push-ups) (3 séries até a falha)",
 			},
-			Terca: []string{ // Dia de Treino de Costas Completo
+			Terca: []string{
 				"Puxada Alta (Lat Pulldown) (4 séries de 8-12 repetições)",
 				"Remada Curvada com Barra (3 séries de 10-12 repetições)",
 				"Remada Sentada (Cabo) (3 séries de 10-15 repetições)",
@@ -85,7 +84,7 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 				"Hiperextensão Lombar (3 séries de 12-15 repetições)",
 				"Levantamento Terra (3 séries de 6-10 repetições - com peso adequado)",
 			},
-			Quarta: []string{ // Dia de Treino de Pernas e Panturrilhas
+			Quarta: []string{
 				"Agachamento Livre (Barra) (4 séries de 8-12 repetições)",
 				"Leg Press (3 séries de 10-15 repetições)",
 				"Cadeira Extensora (3 séries de 12-15 repetições)",
@@ -94,7 +93,7 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 				"Elevação de Panturrilhas em Pé (4 séries de 15-20 repetições)",
 				"Elevação de Panturrilhas Sentado (3 séries de 15-20 repetições)",
 			},
-			Quinta: []string{ // Dia de Treino de Ombros e Abdômen
+			Quinta: []string{
 				"Desenvolvimento com Halteres (Sentado ou em Pé) (3 séries de 10-15 repetições)",
 				"Elevação Lateral com Halteres (3 séries de 12-15 repetições)",
 				"Elevação Frontal com Halteres ou Anilha (3 séries de 12-15 repetições)",
@@ -102,7 +101,7 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 				"Prancha (3 séries de 30-60 segundos)",
 				"Abdominal Remador (3 séries de 15-20 repetições)",
 			},
-			Sexta: []string{ // Dia de Treino de Braço Completo
+			Sexta: []string{
 				"Rosca Direta com Barra (4 séries de 8-12 repetições)",
 				"Rosca Alternada com Halteres (3 séries de 10-15 repetições)",
 				"Rosca Scott (3 séries de 10-15 repetições)",
@@ -113,7 +112,7 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 				"Paralelas ou Tríceps Banco (3 séries até a falha)",
 			},
 		}
-	case "FULLBODY": // Novo treino FULLBODY
+	case "FULLBODY":
 		treinoRetorno = TreinoPadrao{
 			Segunda: []string{
 				"Agachamento Livre (3 séries de 8-12 repetições)",
@@ -122,12 +121,18 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 				"Desenvolvimento com Halteres (3 séries de 10-15 repetições)",
 				"Prancha (3 séries de 30-60 segundos)",
 			},
-			Quarta: []string{ // Exemplo de treino Fullbody 3x na semana
+			Terca: []string{
+				"Descanso",
+			},
+			Quarta: []string{
 				"Leg Press (3 séries de 10-15 repetições)",
 				"Puxada Alta (Lat Pulldown) (3 séries de 10-15 repetições)",
 				"Mesa Flexora (3 séries de 12-15 repetições)",
 				"Supino Inclinado com Halteres (3 séries de 10-15 repetições)",
 				"Elevação de Panturrilhas (3 séries de 15-20 repetições)",
+			},
+			Quinta: []string{
+				"Descanso",
 			},
 			Sexta: []string{
 				"Levantamento Terra (3 séries de 6-10 repetições)",
@@ -138,15 +143,11 @@ func encontrarTreino(w http.ResponseWriter, nomeDoTreino string) {
 			},
 		}
 	default:
-		// Se o treino não for encontrado, você pode retornar um erro ou um treino padrão/vazio.
-		// Neste caso, vamos retornar um erro HTTP 404 Not Found.
 		http.Error(w, "Treino não encontrado.", http.StatusNotFound)
 		return
 	}
 
-	// Configura o cabeçalho Content-Type para indicar que a resposta é JSON
 	w.Header().Set("Content-Type", "application/json")
-	// Codifica a estrutura TreinoPadrao para JSON e escreve na resposta
 	json.NewEncoder(w).Encode(treinoRetorno)
 }
 
@@ -172,8 +173,6 @@ func GetTreinoByCpf(w http.ResponseWriter, r *http.Request) {
 
 	encontrarTreino(w, treino)
 
-	// json.NewEncoder(w).Encode(treino)
-
 }
 
 func CreateTreino(w http.ResponseWriter, r *http.Request) {
@@ -195,5 +194,4 @@ func CreateTreino(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	// json.NewEncoder(w).Encode(treino)
 }
